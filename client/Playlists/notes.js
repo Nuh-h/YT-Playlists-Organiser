@@ -1,6 +1,3 @@
-//List of playlists that belong to me
-//each playlist can be clicked on then viewed in a separate page
-
 //PROGRESS
 //--Take a look at the /playlists route
 //-- Make sure we are storing the correct details for each playlist fetched from YT

@@ -41,7 +41,6 @@ dbConnection.on('error', console.error.bind(console, 'connection error:'));
 dbConnection.once('open',()=>{console.log("Connected to DB!")});
 const playlist = require('./models/playlist.model');
 app.get('/api/playlists', async (req,res) => {
-    console.log("Playlistt api--");
     await playlist.find().then(playlists => res.json(playlists))
     .catch(err => res.status(400).json('Error: '+err))
     //const pls = await getPlaylists();
@@ -51,11 +50,11 @@ app.get('/api/playlists', async (req,res) => {
     //send back all playlists
     //res.send(pls)
 })
-app.get('/playlist1', (req,res)=>{res.send(template())})
+app.get('/playlist/:ID', (req,res)=>{res.send(template())})
 app.get('/api/playlist/:ID', async (req,res)=>{
     //connect to database and grab playlist with given id
     //return it
-    playlist.find().then(playlists => res.json(playlists))
+    playlist.find({_id:req.params.ID}).then(playlists => res.json(playlists))
     .catch(err => res.status(400).json('Error: '+err))
 })
 app.get('/playlists',(req,res)=>{

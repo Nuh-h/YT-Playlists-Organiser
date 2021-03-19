@@ -35,34 +35,25 @@ class Upload extends React.Component {
         }
         const page = document.querySelector(".uploadDiv");
         page.innerHTML = "Please wait while we load the playlist...";
+
+
         const url = this.state.url.replace("https://www.youtube.com/playlist?list=","");
-        //send request to /api-helper with this url as query string
+        //send request to api with this url as query string
         let res = await fetch('/api/add-playlist/'+url);
-        //the api-helper will load the playlist, add it to DB then respond about whether Ok or not
+        //the api will load the playlist, add it to DB then respond about whether Ok or not
         //Then we either reroute or inform client to retry
         //we reroute to /playlists
         if(res.ok){
-            console.log("ALL GOOD")
+            page.innerHTML="Playlist added successfully! Please wait to be redirected ...."//+seconds+" seconds".
             window.location = "/playlists"
         }
         else{
-            console.log("NOT GOOD")
+            page.innerHTML="An error occurred while saving the playlist, please try again"
             window.location = "/upload"
         }
         //playlists will obtain items from DB and will prepare list of playlists
         //each playlist will route to /playlist/id
       }
-}
-
-const uploadOld = () => {
-    return (
-        <div style={{height:"300px", display:"flex", justifyContent:"center", alignItems:"center"}}>
-            <form method="post" style={{border:"2px solid blue"}}>
-                <input style={{width:"300px"}} type={{Text}} placeholder="Enter the url to the playlist eg. youtu.be/playlist/1"></input>
-                <button type="submit" formAction="/loadPlaylists" style={{backgroundColor:"turquoise",border:"2px solid black"}}>LOAD</button>
-            </form>
-        </div>
-    )
 }
 
 export default Upload

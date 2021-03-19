@@ -1,9 +1,8 @@
-//api helper will handle getting playlists from youtube
-//this file will prepare the frontend for the resources retrieved
-
-//THIS PAGE SHOULD ONLY SHOW LIST OF PLAYLISTS SAVED BY THE USER
-//Create a new page to show only a single playlist!
+//This page will list all the playlists of the user
+import { Int32 } from 'bson';
 import React from 'react'
+
+//ToDO: Add link that will route to /playlist/ID to each playlist
 
 //use jss at some point
 class Playlists extends React.Component {
@@ -13,32 +12,19 @@ class Playlists extends React.Component {
             playlists:[{
                 name:'',
                 items:[
-                    {name:'', address:''}
+                    {name:'', address:'', _id:''}
                 ]
            }],
            currentIndex:0
         };
         this.handleChange = this.handleChange.bind(this)
     }
-    // componentDidMount(){
-    //     this.setState({
-    //         playlist:[{
-    //             name:'Safraul Wahy',
-    //             items:[
-    //                 {name:'Video 1', address:'https://www.youtube.com/embed/d1TS7f0xYqg'},
-    //                 {name:'Video 2', address:'https://www.youtube.com/embed/d1TS7f0xYqg'},
-    //                 {name:'Video 3', address:'https://www.youtube.com/embed/d1TS7f0xYqg'},
-    //                 {name:'Video 4', address:'https://www.youtube.com/embed/d1TS7f0xYqg'},
-    //                 {name:'Video 5', address:'https://www.youtube.com/embed/d1TS7f0xYqg'}
-    //             ]
-    //         }]
-    //     })
-    // }
+    
     async componentDidMount(){
         await fetch('/api/playlists',{method:'GET'})
         .then(res => res.json())
         .then(json => this.setState({playlists:json}))
-        console.log(this.state.playlists)
+        //console.log(this.state.playlists)
     }
     handleChange(e){
         e.preventDefault();
@@ -47,23 +33,21 @@ class Playlists extends React.Component {
     render(){
         return (
             <div style={{display:"flex",
-             flexDirection:"column", margin:"0",
+             flexDirection:"column", margin:"12px",
               padding:"0"}}>
                 {
-                    this.state.playlists.map((playlist)=>(
-                        <div id={this.state.playlists.indexOf(playlist)}
-                        style={{borderTop:"1px solid grey", width:"80%", height:"auto", margin:"auto auto"}} 
-                        onClick={this.handleChange}>
+                    this.state.playlists.map((playlist,index)=>(
+                        <div id={index}
+                        style={{backgroundColor:"lavender", width:"80%", height:"auto", borderRadius:"10px", margin:"1% auto", paddingLeft:"1%"}} 
+                        >
                             <h4>{playlist.name}</h4>
-
+                            <a href={"/playlist/"+playlist._id}> {playlist._id}</a>
                         </div>
                     ))
                 }
             </div>
         )
     }
-
-    
 }
 
 export default Playlists

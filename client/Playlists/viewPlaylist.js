@@ -18,26 +18,29 @@ class Playlist extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this)
     }
-    componentDidMount(){
-        this.setState({
-            playlist:[{
-                name:'Safraul Wahy',
-                items:[
-                    {name:'Video 1', address:'https://www.youtube.com/embed/-RkERdJRpWQ'},
-                    {name:'Video 2', address:'https://www.youtube.com/embed/x2_x5mzR_ME'},
-                    {name:'Video 3', address:'https://www.youtube.com/embed/3keG-Slw1_w'},
-                    {name:'Video 4', address:'https://www.youtube.com/embed/qNKWs1dFBUQ'},
-                    {name:'Video 5', address:'https://www.youtube.com/embed/ckIJUDLwRO8'}
-                ]
-            }]
-        })
-    }
-    // async componentDidMount(){
-    //     await fetch('/api/playlists/:ID',{method:'GET'})
-    //     .then(res => res.json())
-    //     .then(json => this.setState({playlist:json}))
-    //     console.log(this.state.playlist)
+    // componentDidMount(){
+    //     this.setState({
+    //         playlist:[{
+    //             name:'Safraul Wahy',
+    //             items:[
+    //                 {name:'Video 1', address:'https://www.youtube.com/embed/-RkERdJRpWQ'},
+    //                 {name:'Video 2', address:'https://www.youtube.com/embed/x2_x5mzR_ME'},
+    //                 {name:'Video 3', address:'https://www.youtube.com/embed/3keG-Slw1_w'},
+    //                 {name:'Video 4', address:'https://www.youtube.com/embed/qNKWs1dFBUQ'},
+    //                 {name:'Video 5', address:'https://www.youtube.com/embed/ckIJUDLwRO8'}
+    //             ]
+    //         }]
+    //     })
     // }
+    async componentDidMount(){
+        //Temporarily using the window url
+        var ID = (window.location.href).split("/")
+        ID = ID[ID.length-1];
+        await fetch('/api/playlist/'+ID,{method:'GET'})
+        .then(res => res.json())
+        .then(json => this.setState({playlist:json}))
+        console.log(this.state.playlist)
+    }
     handleChange(e){
         e.preventDefault();
         this.setState({ currentIndex: e.currentTarget.id });
@@ -54,8 +57,8 @@ class Playlist extends React.Component {
                  borderRadius:"8px", margin:"12px", ":hover":{backgroundColor:"green"}}}
                   >
                     {
-                        this.state.playlist[0].items.map(item => (
-                            <div id={this.state.playlist[0].items.indexOf(item)} style={{borderTop:"1px solid grey"}} onClick={this.handleChange}>
+                        this.state.playlist[0].items.map((item,index) => (
+                            <div id={index} style={{borderTop:"1px solid grey", display:"flex", justifyContent:"space-between", margin:"0", alignItems:"center", background:this.state.currentIndex==index?"turquoise":"lightgrey", padding:"0 15px"}} onClick={this.handleChange}>
                                 <h4>{item.name}</h4>
                                 <a href={item.address}>view on YT</a>
                             </div>
