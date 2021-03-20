@@ -1,14 +1,11 @@
 //This page will list all the playlists of the user
-import { Int32 } from 'bson';
 import React from 'react'
-
-//playlists is not defined?
-//ToDO: Add link that will route to /playlist/ID to each playlist
 
 //use jss at some point
 class Playlists extends React.Component {
     constructor(props){
         super(props);
+        //initialise state to this for trial purposes
         this.state = {
             playlists: [
                 {
@@ -34,12 +31,10 @@ class Playlists extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this)
     }
-    
-    async componentDidMount(){
-        await fetch('/api/playlists',{method:'GET'})
+    componentDidMount(){
+        fetch('/api/playlists',{method:'GET'})
         .then(res => res.json())
         .then(data => this.setState({ playlists: data }))
-        //console.log(this.state.playlists)
     }
     handleChange(e){
         e.preventDefault();
@@ -50,15 +45,28 @@ class Playlists extends React.Component {
             <div style={{display:"flex",
              flexDirection:"column", margin:"12px",
               padding:"0"}}>
+                  <h4 style={{textAlign:"center"}}>My Playlists</h4>
                 {
                     this.state.playlists.map((playlist,index)=>(
                         <div id={index}
-                        style={{backgroundColor:"lavender", width:"80%",
-                         height:"auto", borderRadius:"10px", 
-                         margin:"1% auto", paddingLeft:"1%"}} 
+                            style={{backgroundColor:"lavender", width:"80%",
+                            height:"auto", borderRadius:"10px", 
+                            margin:"1% auto", paddingLeft:"1%",
+                            display:"flex"}} tabIndex="0" 
                         >
-                            <h4>{playlist.snippet.title?playlist.snippet.title:"[loading...] "+index}</h4>
-                            <a href={"/playlist/"+playlist._id}> {playlist._id}</a>
+                            <img src={playlist.snippet.thumbnails.medium.url} width="150px"></img>
+                            <div style={{paddingLeft:"3%", width:"60%"}}>
+                                <a href={"/playlist/"+playlist._id}
+                                    style={{fontSize:"19px"}}>
+                                    {playlist.snippet.title?playlist.snippet.title:"[loading...] "+index}
+                                </a>
+                                <div style={{display:"flex", justifyContent:"space-between"}}>
+                                    <p><i>{playlist.channelTitle}</i></p>
+                                    <p>{playlist.snippet.publishedAt.split('T')[0]}</p>
+                                </div>
+                            </div>
+                            {/* <a href={"/playlist/"+playlist._id} 
+                                style={{margin:"auto", backgroundColor:"peachpuff"}}> VISIT</a> */}
                         </div>
                     ))
                 }

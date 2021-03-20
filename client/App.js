@@ -15,7 +15,7 @@ const App = () => {
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route exact path="/upload" component={Upload}/>
-                <Route exact path="/playlist/:ID" component={()=> <Playlist />} />
+                <Route exact path="/playlist/:ID" component={Playlist} />
                 <Route exact path="/playlists" component={Playlists}/>
             </Switch>
         </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-const fetch = require('node-fetch');
+//const fetch = require('node-fetch');
 class Upload extends React.Component {
     constructor(props){
         super(props);
@@ -10,7 +10,11 @@ class Upload extends React.Component {
     }
     render(){
         return (
-            <div className="uploadDiv" style={{height:"300px", display:"flex", justifyContent:"center", alignItems:"center"}}>
+            <div className="uploadDiv" 
+                style={{height:"300px", display:"flex",
+                     justifyContent:"center", alignItems:"center",
+                     backgroundColor:this.state.url==""?"powderblue":"midnightblue",
+                     transition:"background 2s ease 0.1s"}}>
             <form onSubmit={this.handleSubmit} style={{border:"2px solid blue"}}>
                 <input style={{width:"300px"}} 
                     type="url" 
@@ -39,16 +43,16 @@ class Upload extends React.Component {
 
         const url = this.state.url.replace("https://www.youtube.com/playlist?list=","");
         //send request to api with this url as query string
-        let res = await fetch('/api/add-playlist/'+url);
-        //the api will load the playlist, add it to DB then respond about whether Ok or not
+        let res = await fetch('/api/add-playlist/'+url, {method: 'GET'});
+        //the backend will deal with fetching the playlist, adding it to DB then respond about whether Ok or not
         //Then we either reroute or inform client to retry
         //we reroute to /playlists
         if(res.ok){
-            page.innerHTML="Playlist added successfully! Please wait to be redirected ...."//+seconds+" seconds".
-            window.location = "/playlists"
+            page.innerHTML="Playlist added successfully! Please wait to be redirected ....";
+            window.location = "/playlists";
         }
         else{
-            page.innerHTML="An error occurred while saving the playlist, please try again"
+            page.innerHTML="An error occurred while saving the playlist, please try again";
             window.location = "/upload"
         }
         //playlists will obtain items from DB and will prepare list of playlists

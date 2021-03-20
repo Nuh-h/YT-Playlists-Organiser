@@ -47,32 +47,22 @@ class Playlist extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
     }
-    // componentDidMount(){
-    //     this.setState({
-    //         playlist:[{
-    //             name:'Safraul Wahy',
-    //             items:[
-    //                 {name:'Video 1', address:'https://www.youtube.com/embed/-RkERdJRpWQ'},
-    //                 {name:'Video 2', address:'https://www.youtube.com/embed/x2_x5mzR_ME'},
-    //                 {name:'Video 3', address:'https://www.youtube.com/embed/3keG-Slw1_w'},
-    //                 {name:'Video 4', address:'https://www.youtube.com/embed/qNKWs1dFBUQ'},
-    //                 {name:'Video 5', address:'https://www.youtube.com/embed/ckIJUDLwRO8'}
-    //             ]
-    //         }]
-    //     })
-    // }
     async componentDidMount(){
         //Temporarily using the window url
         var ID = (window.location.href).split("/")
         ID = ID[ID.length-1];
-        await fetch('/api/playlist/'+ID,{method:'GET'})
+
+        await fetch('/api/playlist/'+ID, {method:'GET'})
         .then(res => res.json())
         .then(json => this.setState({ playlist:json[0] }))
-        console.log(this.state.playlist)
     }
     handleChange(e){
         e.preventDefault();
         this.setState({ currentIndex: e.currentTarget.id });
+
+        if(e.target.href){
+            window.open(e.target.href)
+        }
     }
     
     render(){
@@ -81,17 +71,25 @@ class Playlist extends React.Component {
             <div style={{display:"flex",
              flexDirection:"column", margin:"0",
               padding:"0"}}>
-                <iframe src={"https://www.youtube.com/embed/"+content.contentDetails.videoId} title={content.snippet.title} style={{width:"80%", height:"300px", margin:"auto auto"}}>
+                <iframe src={"https://www.youtube.com/embed/"+content.contentDetails.videoId} 
+                    title={content.snippet.title} 
+                    style={{width:"80%", height:"300px", margin:"auto auto"}}>
                 </iframe>
                 <div style={{backgroundColor:"honeydew",
-                 height:"200px", overflowX:"auto",
-                 borderRadius:"8px", margin:"12px", ":hover":{backgroundColor:"green"}}}
+                    height:"200px", overflowX:"auto",
+                    borderRadius:"8px", margin:"12px", 
+                    ":hover":{backgroundColor:"green"}}}
                   >
                     {
                         this.state.playlist.items.map((item,index) => (
-                            <div id={index} style={{borderTop:"1px solid grey", display:"flex", justifyContent:"space-between", margin:"0", alignItems:"center", background:this.state.currentIndex==index?"turquoise":"lightgrey", padding:"0 15px"}} onClick={this.handleChange}>
-                                <h4>{item.snippet.title}</h4>
-                                <a href={"https://www.youtube.com/watch?v="+item.contentDetails.videoId}>view on YT</a>
+                            <div id={index} tabIndex="0"
+                                style={{borderTop:"1px solid grey", display:"flex", 
+                                margin:"0", alignItems:"center",
+                                background:this.state.currentIndex==index?"turquoise":"lightgrey",
+                                padding:"0 0 0 5px"}} 
+                                onClick={this.handleChange}>
+                                <img src={item.snippet.thumbnails.default.url} width="100px"></img>
+                                <h4 style={{paddingLeft:"2%"}}>{item.snippet.title}</h4>
                             </div>
                         ))
                     }

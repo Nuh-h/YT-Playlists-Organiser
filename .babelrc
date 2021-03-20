@@ -19,4 +19,3 @@
         "react-hot-loader/babel"
     ]
 }
-//In this configuration, we specify that we need Babel to transpile the latest JavaScript syntax with support for code in a Node.js environment and also React/JSX code. The react-hot-loader/babel plugin is required by the react-hot-loader module to compile React components.

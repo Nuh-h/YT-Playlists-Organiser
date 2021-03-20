@@ -1,37 +1,41 @@
-const { json } = require('express');
 const fetch = require('node-fetch');
 const util = require('util');
 const mongoose = require('mongoose');
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/yt-playlists-organiser'
+
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
 });
-const dbConnection = mongoose.connection;
-dbConnection.on('error', console.error.bind(console, 'connection error:'));
-dbConnection.once('open',()=>{console.log("Connected to DB, ready to update...")});
+
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open',()=>{console.log("Connected to DB, ready to update...")});
+
 const playlistModel = require('./../models/playlist.model');
 
-const dotenvres = require('dotenv').config();
-if (dotenvres.error) {
-    throw dotenvres.error
+const dotenvRes = require('dotenv').config();
+if (dotenvRes.error) {
+    throw dotenvRes.error
 }
-//SAFRAUL WAHY PLAYLIST ID: PLo4PWr1VvhkkJZtK1kMWjV5sPee68fRF2
-const fetchPlaylist = async (playlistID)=>{
-    //let playlistID = 'PLo4PWr1VvhkkJZtK1kMWjV5sPee68fRF2'
-    let playlistValues;
-    let playlistData;
+
+//SAMPLE PLAYLIST: 'SAFRAUL WAHY' playlistID = PLo4PWr1VvhkkJZtK1kMWjV5sPee68fRF2
+const fetchPlaylist = async (playlistID) => {
+    let playlistVideos;
+    let playlistMetadata;
+    //F
     await fetch(
-        'https://youtube.googleapis.com/youtube/v3/playlistItems?'+
-        'part=snippet%2CcontentDetails&maxResults=50'+
-        '&playlistId='+playlistID+
-        '&fields=nextPageToken'+
-        '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails(default(url)))'+
-        '%2CcontentDetails)'+
-        '&key='+process.env.MY_KEY,{method:'GET'})
-        .then(res=>res.json()).then(data=>playlistValues=data);
+            'https://youtube.googleapis.com/youtube/v3/playlistItems?'+
+            'part=snippet%2CcontentDetails&maxResults=50'+
+            '&playlistId='+playlistID+
+            '&fields=nextPageToken'+
+            '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails(default(url)))'+
+            '%2CcontentDetails)'+
+            '&key='+process.env.MY_KEY,
+            {method:'GET'})
+        .then(res=>res.json()).then(data=>playlistVideos=data);
     
     await fetch(
         'https://www.googleapis.com/'+
@@ -39,20 +43,22 @@ const fetchPlaylist = async (playlistID)=>{
         'part=snippet%2CcontentDetails'+
         '&maxResults=5&id='+
         playlistID+
-        '&fields=items(snippet(publishedAt,channelId,title,description, channelTitle, thumbnails(medium)))'+
-        '&key='+process.env.MY_KEY,{method:'GET'})
-        .then(res=>res.json()).then(data=>playlistData=data);
+        '&fields=items(snippet(publishedAt,channelId,title,description,channelTitle thumbnails(medium)))'+
+        '&key='+process.env.MY_KEY,
+        {method:'GET'})
+        .then(res=>res.json())
+        .then(data => playlistMetadata=data);
     const newPlaylist = {
-        snippet:playlistData.items[0].snippet,
-        channelTitle:playlistData.items[0].snippet.channelTitle,
-        items: playlistValues.items
+        snippet:playlistMetadata.items[0].snippet,
+        channelTitle:playlistMetadata.items[0].snippet.channelTitle,
+        items: playlistVideos.items
     }
     return newPlaylist
 }
 async function updatePlaylistDB(playlistID){
     try{
-        const newPl = await fetchPlaylist(playlistID)
-        let playlist = await new playlistModel(newPl);
+        const newPlaylist = await fetchPlaylist(playlistID)
+        let playlist = await new playlistModel(newPlaylist);
         await playlist.save();
     }
     catch(err){
