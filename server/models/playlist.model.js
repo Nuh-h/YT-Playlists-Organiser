@@ -1,3 +1,4 @@
+const { Int32 } = require('bson');
 const mongoose = require('mongoose');
 //necessary details to extract:
         //thumbnail
@@ -8,12 +9,37 @@ const mongoose = require('mongoose');
         //date uploaded
         //duration --later
 const PlaylistSchema = new mongoose.Schema({
-    name: String,
-    items:[{
-        name: String,
-        address: String
-    }]
-
+    channelTitle: String,
+    snippet: {
+        publishedAt: Date,
+        channelId: String,
+        title: String,
+        description: String,
+        thumbnails: {
+          medium: {
+            url: String,
+            width: Number,
+            height: Number
+          }
+        },
+        channelTitle: String
+    },
+    items: [
+        {
+          snippet: {
+            publishedAt: Date,
+            title: String,
+            description: String,
+            thumbnails: {
+              default: { url: String }
+            }
+          },
+          contentDetails: {
+            videoId: String,
+            videoPublishedAt: Date
+          }
+        }
+    ]
  })
    
 

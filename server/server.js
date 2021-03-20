@@ -13,7 +13,6 @@ devBundle.compile(app) //use middleware and hot-reloader
 
 const CURRENT_WORKING_DIR = process.cwd()
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR,'dist')))
-
 app.get('/', (req, res)=>{res.status(200).send(template()); console.log("connected to route /")})
 app.get('/upload', (req, res)=>{res.status(200).send(template())})
 
@@ -40,6 +39,7 @@ const dbConnection = mongoose.connection;
 dbConnection.on('error', console.error.bind(console, 'connection error:'));
 dbConnection.once('open',()=>{console.log("Connected to DB!")});
 const playlist = require('./models/playlist.model');
+
 app.get('/api/playlists', async (req,res) => {
     await playlist.find().then(playlists => res.json(playlists))
     .catch(err => res.status(400).json('Error: '+err))
