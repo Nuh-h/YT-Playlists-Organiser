@@ -1,4 +1,6 @@
 import React from 'react'
+import './app.css'
+
 
 const anchorStyle = {
     textDecoration:"none",
@@ -6,7 +8,7 @@ const anchorStyle = {
 
 const MenuBar = ()=>{
     return (
-        <div style={{height:"30px", margin:"0px", marginTop:"0px", color:"blue", fontSize:"18px",backgroundColor:"grey", display:"flex", justifyContent:"space-around", alignItems:"center"}}>
+        <div className="MenuBar" >
             <a href="/" style={anchorStyle}>
                 Home
             </a>

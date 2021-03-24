@@ -2,8 +2,8 @@
 //Then Display the default video, list of videos and add the functionalities later
 //for reordering etc
 import React from 'react'
+import './../app.css'
 
-//use jss at some point
 class Playlist extends React.Component {
     constructor(props){
         super(props);
@@ -68,28 +68,18 @@ class Playlist extends React.Component {
     render(){
         var content = this.state.playlist.items[this.state.currentIndex] 
         return (
-            <div style={{display:"flex",
-             flexDirection:"column", margin:"0",
-              padding:"0"}}>
+            <div className="view-playlist-div" >
                 <iframe src={"https://www.youtube.com/embed/"+content.contentDetails.videoId} 
-                    title={content.snippet.title} 
-                    style={{width:"80%", height:"300px", margin:"auto auto"}}>
+                    title={content.snippet.title} >
                 </iframe>
-                <div style={{backgroundColor:"honeydew",
-                    height:"200px", overflowX:"auto",
-                    borderRadius:"8px", margin:"12px", 
-                    ":hover":{backgroundColor:"green"}}}
-                  >
+                <div className="playlist-items-container">
                     {
                         this.state.playlist.items.map((item,index) => (
-                            <div id={index} tabIndex="0"
-                                style={{borderTop:"1px solid grey", display:"flex", 
-                                margin:"0", alignItems:"center",
-                                background:this.state.currentIndex==index?"turquoise":"lightgrey",
-                                padding:"0 0 0 5px"}} 
+                            <div id={index} tabIndex="0" className = "playlist-item"
+                                style={{ background:this.state.currentIndex==index?"chocolate":""}} 
                                 onClick={this.handleChange}>
-                                <img src={item.snippet.thumbnails.default.url} width="100px"></img>
-                                <h4 style={{paddingLeft:"2%"}}>{item.snippet.title}</h4>
+                                <img src={item.snippet.thumbnails.default.url} ></img>
+                                <h4 >{item.snippet.title}</h4>
                             </div>
                         ))
                     }

@@ -1,10 +1,13 @@
 import React from 'react'
+import './app.css'
+
+
 export default ()=>{
     return(
-        <div>
-            <h5 style={{textAlign:"center", color:"purple", fontSize:"19px"}}> Do you want to ...?</h5>
+        <div className="Home">
+            <h5> Do you want to ...?</h5>
             <div>
-                <ul style={{textAlign:"center", listStyleType:"none"}}>
+                <ul>
                     <li>...take <strong>control</strong> of your playlists? </li>
                     <li> to manage them </li>
                     <li> re-order them </li>
@@ -14,7 +17,7 @@ export default ()=>{
                     <li> Then keep an eye on this webapp and <i> explore at your leisure</i></li>
                 </ul>
             </div>
-            <div style = {{textAlign:"center", height:"200px", color:"olive",fontSize:"39px"}}>
+            <div>
                         Enjoy
             </div> 
         </div>

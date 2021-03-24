@@ -5,6 +5,7 @@ export default () => {
         <head>
             <meta charset="utf-8">
             <title>YT:Playlists-Organiser</title>
+            <link rel="stylesheet"></link>
         </head>
         <body>
             <div id="root" style="max-width:700px;"></div>

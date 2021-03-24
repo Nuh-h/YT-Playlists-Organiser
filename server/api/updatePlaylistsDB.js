@@ -25,7 +25,8 @@ if (dotenvRes.error) {
 const fetchPlaylist = async (playlistID) => {
     let playlistVideos;
     let playlistMetadata;
-    //F
+
+       
     await fetch(
             'https://youtube.googleapis.com/youtube/v3/playlistItems?'+
             'part=snippet%2CcontentDetails&maxResults=50'+
@@ -35,7 +36,8 @@ const fetchPlaylist = async (playlistID) => {
             '%2CcontentDetails)'+
             '&key='+process.env.MY_KEY,
             {method:'GET'})
-        .then(res=>res.json()).then(data=>playlistVideos=data);
+        .then(res=>res.json())
+        .then(data=>playlistVideos=data);
     
     await fetch(
         'https://www.googleapis.com/'+
@@ -43,11 +45,13 @@ const fetchPlaylist = async (playlistID) => {
         'part=snippet%2CcontentDetails'+
         '&maxResults=5&id='+
         playlistID+
-        '&fields=items(snippet(publishedAt,channelId,title,description,channelTitle thumbnails(medium)))'+
+        '&fields=items(snippet(publishedAt,channelId,title,description,channelTitle,thumbnails(medium)))'+
         '&key='+process.env.MY_KEY,
         {method:'GET'})
         .then(res=>res.json())
         .then(data => playlistMetadata=data);
+    console.log("-----------------"+playlistID+"------------")
+    console.log(util.inspect(playlistMetadata)) 
     const newPlaylist = {
         snippet:playlistMetadata.items[0].snippet,
         channelTitle:playlistMetadata.items[0].snippet.channelTitle,

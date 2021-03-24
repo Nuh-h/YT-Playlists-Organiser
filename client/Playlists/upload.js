@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './../app.css'
 //const fetch = require('node-fetch');
 class Upload extends React.Component {
     constructor(props){
@@ -10,22 +11,17 @@ class Upload extends React.Component {
     }
     render(){
         return (
-            <div className="uploadDiv" 
-                style={{height:"300px", display:"flex",
-                     justifyContent:"center", alignItems:"center",
-                     backgroundColor:this.state.url==""?"powderblue":"midnightblue",
-                     transition:"background 2s ease 0.1s"}}>
-            <form onSubmit={this.handleSubmit} style={{border:"2px solid blue"}}>
-                <input style={{width:"300px"}} 
-                    type="url" 
-                    pattern="https://www.youtube.com/playlis[tT][?]list[=]?.*"
-                    placeholder="eg. https://www.youtube.com/playlist?list={id}" 
-                    onChange={this.handleChange}
-                    value={this.state.url} required></input>
-                <button type="submit" style={{backgroundColor:"turquoise",border:"2px solid black"}}>LOAD</button>
-            </form>
+            <div className="upload-div" style={{ backgroundColor:this.state.url==""?"powderblue":"midnightblue" }} >
+                <form onSubmit={this.handleSubmit} >
+                    <input type="url" 
+                        pattern="https://www.youtube.com/playlis[tT][?]list[=]?.*"
+                        placeholder="eg. https://www.youtube.com/playlist?list={id}" 
+                        onChange={this.handleChange}
+                        value={this.state.url} required></input>
+                    <button type="submit"> LOAD </button>
+                </form>
             </div>
-        );
+        )
     }
 
     handleChange(e) {
@@ -37,7 +33,7 @@ class Upload extends React.Component {
         if (this.state.url.length === 0) {
           return;
         }
-        const page = document.querySelector(".uploadDiv");
+        const page = document.querySelector(".upload-div");
         page.innerHTML = "Please wait while we load the playlist...";
 
 

@@ -18,14 +18,19 @@ app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR,'dist')))
 app.get('/', function callback(req, res){
      res.status(200).send(template())
 })
-app.get('/upload', function callback(req, res){
+app.get('/upload',
+ function callback(req, res){
     res.status(200).send(template())
+})
+app.get('/create',
+ function callback(req, res){
+    res.status(200).send(template())
+})
+app.get('/playlists', function callback(req,res){
+    res.send(template())
 })
 app.get('/playlist/:ID', function callback(req,res){
     res.send(template())
-})
-app.get('/playlists',(req,res)=>{
-    res.status(200).send(template());
 })
 
 //backend routes

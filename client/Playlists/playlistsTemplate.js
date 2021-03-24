@@ -1,7 +1,7 @@
 //This page will list all the playlists of the user
 import React from 'react'
+import './../app.css'
 
-//use jss at some point
 class Playlists extends React.Component {
     constructor(props){
         super(props);
@@ -42,34 +42,26 @@ class Playlists extends React.Component {
     }
     render(){
         return (
-            <div style={{display:"flex",
-             flexDirection:"column", margin:"12px",
-              padding:"0"}}>
-                  <h4 style={{textAlign:"center"}}>My Playlists</h4>
-                {
-                    this.state.playlists.map((playlist,index)=>(
-                        <div id={index}
-                            style={{backgroundColor:"lavender", width:"80%",
-                            height:"auto", borderRadius:"10px", 
-                            margin:"1% auto", paddingLeft:"1%",
-                            display:"flex"}} tabIndex="0" 
-                        >
-                            <img src={playlist.snippet.thumbnails.medium.url} width="150px"></img>
-                            <div style={{paddingLeft:"3%", width:"60%"}}>
-                                <a href={"/playlist/"+playlist._id}
-                                    style={{fontSize:"19px"}}>
-                                    {playlist.snippet.title?playlist.snippet.title:"[loading...] "+index}
-                                </a>
-                                <div style={{display:"flex", justifyContent:"space-between"}}>
-                                    <p><i>{playlist.channelTitle}</i></p>
-                                    <p>{playlist.snippet.publishedAt.split('T')[0]}</p>
+            <div className="playlists-component">
+                  <h4> My Playlists</h4>
+                  <div className="playlists-container">
+                    {
+                        this.state.playlists.map((playlist,index)=>(
+                            <div id={index} className="playlists-item" tabIndex="0">
+                                <img src={playlist.snippet.thumbnails.medium.url}></img>
+                                <div className="playlists-item-snippet">
+                                    <a href={"/playlist/"+playlist._id}>
+                                        {playlist.snippet.title ? playlist.snippet.title : "[loading...] "}
+                                    </a>
+                                    <div className="playlists-item-meta" >
+                                        <p><i>{playlist.channelTitle}</i></p>
+                                        <p>{playlist.snippet.publishedAt.split('T')[0].split('-').reverse().join(' / ')}</p>
+                                    </div>
                                 </div>
                             </div>
-                            {/* <a href={"/playlist/"+playlist._id} 
-                                style={{margin:"auto", backgroundColor:"peachpuff"}}> VISIT</a> */}
-                        </div>
-                    ))
-                }
+                        ))
+                    }
+                </div>
             </div>
         )
     }
