@@ -76,7 +76,7 @@ class Playlist extends React.Component {
                     {
                         this.state.playlist.items.map((item,index) => (
                             <div id={index} tabIndex="0" className = "playlist-item"
-                                style={{ background:this.state.currentIndex==index?"chocolate":""}} 
+                                style={{ background:this.state.currentIndex==index?"rgba(0,0,10,.7)":""}} 
                                 onClick={this.handleChange}>
                                 <img src={item.snippet.thumbnails.default.url} ></img>
                                 <h4 >{item.snippet.title}</h4>

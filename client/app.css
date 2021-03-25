@@ -1,11 +1,12 @@
 /* App */
-html {
-    margin:auto 5%;
+body{
+    display: flex;
+    justify-content: center;
 }
-
 .App { 
     border: 1px solid pink;
-    height:max-content;    
+    min-height:max-content;  
+    width:600px;  
 }
 .App h1 {
     background-color:pink;
@@ -83,12 +84,10 @@ html {
 
 /* Create Playlist component */
 .create-div {
-    height:300px;
+    min-height:300px;
     display:flex;
     justify-content:center;
-    align-items:center;
-    background-color:powderblue;
-    transition:background 2s ease 0.1s;
+    align-items:center;    
 }
 
 form {
@@ -96,7 +95,11 @@ form {
     display:flex;
     flex-direction:column;
     padding:10px;
-
+    background-color:none;
+    transition:background 2s ease 0.1s;
+}
+form:hover{
+    background-color: rgba(12,34,67,.6)
 }
 input { width:300px; }
 button {
@@ -108,8 +111,6 @@ button {
 .playlists-component {
     display:flex;
     flex-direction:column;
-    margin:0;
-    padding:0;
 }
 h4 { 
     text-align: center;
@@ -124,22 +125,29 @@ h4 {
 .playlists-item {
     background-color:rgba(0,0,0,.7);
     border-radius:10px;
-    margin:.5% auto;
+    margin:.8% auto;
     padding-left:1%;
-    width:auto
+    width:min-content;
+}
+.playlists-item img {
+    padding:2%;
+    margin-left:-5px;
+    width:170px;
+    height:auto;
+    border-radius:15px;
 }
 .playlists-item a {
     color:cyan;
     font-size:16px;
+    text-overflow:wrap;
 }
 img { width: 150px; }
 .playlists-item-snippet {
     padding-left:3%;
-    width:80%;
 }
 a { font-size: 19px; }
-.playlists-item-meta {
-}
+/* .playlists-item-meta {
+} */
 
 /* upload component */
 .upload-div {
@@ -173,10 +181,10 @@ iframe {
 
 }
 .playlist-item:hover{
-    background-color:navy;
+    background-color:rgba(0, 0, 128, 0.411);
 }
 .playlist-item {
-    border-top:1px solid grey;
+    border-top:1px solid rgba(7, 205, 219, 0.884);
     display:flex;
     margin:0;
     align-items:center;

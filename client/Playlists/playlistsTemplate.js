@@ -31,10 +31,11 @@ class Playlists extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this)
     }
-    componentDidMount(){
-        fetch('/api/playlists',{method:'GET'})
+    async componentDidMount(){
+        await fetch('/api/playlists',{method:'GET'})
         .then(res => res.json())
         .then(data => this.setState({ playlists: data }))
+        .catch(err => console.log(err))
     }
     handleChange(e){
         e.preventDefault();
@@ -51,10 +52,10 @@ class Playlists extends React.Component {
                                 <img src={playlist.snippet.thumbnails.medium.url}></img>
                                 <div className="playlists-item-snippet">
                                     <a href={"/playlist/"+playlist._id}>
-                                        {playlist.snippet.title ? playlist.snippet.title : "[loading...] "}
+                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,43)+"..." : "[loading...] "}
                                     </a>
                                     <div className="playlists-item-meta" >
-                                        <p><i>{playlist.channelTitle}</i></p>
+                                        <p><i>{playlist.channelTitle.substring(0,43)}</i></p>
                                         <p>{playlist.snippet.publishedAt.split('T')[0].split('-').reverse().join(' / ')}</p>
                                     </div>
                                 </div>

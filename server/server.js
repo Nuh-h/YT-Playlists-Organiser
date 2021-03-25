@@ -5,7 +5,7 @@ import config from './../config/config'
 import template from './../template'
 /** dev mode only*/
 import devBundle from './devBundle'
-import updatePlaylistDB from './api/updatePlaylistsDB'
+import updatePlaylistDB from './api-helper/updatePlaylistsDB'
 
 const app = express() //Express App -- to be used to build the rest of the Node server application
 /** dev mode only*/
@@ -34,9 +34,12 @@ app.get('/playlist/:ID', function callback(req,res){
 })
 
 //backend routes
-app.get('/api/add-playlist/:url', async (req, res)=>{
-    let url = req.params.url;
-    var success = await updatePlaylistDB(url);
+app.get('/api/add-playlist/:ID/:TITLE', async (req, res)=>{
+    let id = req.params.ID;
+    let title = req.params.TITLE;
+
+    console.log(id,title);
+    var success = await updatePlaylistDB(id,title);
     if(success){
         res.status(200).json({ok:true});
     }
@@ -44,7 +47,19 @@ app.get('/api/add-playlist/:url', async (req, res)=>{
         res.status(404).json({ok:false});
     }
 })
+app.get('api/add-playlist/:ID', async (req, res)=>{
+    let id = req.params.ID;
+    let title = null;
 
+    console.log(id,title);
+    var success = await updatePlaylistDB(id,title);
+    if(success){
+        res.status(200).json({ok:true});
+    }
+    else{
+        res.status(404).json({ok:false});
+    }
+})
 //preparation for connecting to the database
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/yt-playlists-organiser'
 mongoose.connect(uri, {

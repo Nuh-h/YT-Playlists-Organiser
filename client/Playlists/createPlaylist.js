@@ -18,8 +18,8 @@ class createPlaylist extends React.Component {
                             onChange={this.updateTitle}
                             value={this.state.title} required></input>
                     <input type="url" 
-                            pattern="https://www.youtube.com/videoItem?"
-                            placeholder="eg. https://www.youtube.com/videoItem?" 
+                            pattern="https://www.youtube.com/watch[?]v=?.*"
+                            placeholder="eg. https://www.youtube.com/watch?v={id}" 
                             onChange={this.updateUrl}
                             value={this.state.url} required></input>
                     <button type="submit" >CREATE</button>
@@ -41,13 +41,13 @@ class createPlaylist extends React.Component {
         if (this.state.url.length === 0) {
           return;
         }
-        const page = document.querySelector(".createDiv");
+        const page = document.querySelector(".create-div");
         page.innerHTML = "Please wait while we create the playlist...";
 
 
-        const url = this.state.url.replace("https://www.youtube.com/playlist?list=","");
+        const ID = this.state.url.replace("https://www.youtube.com/watch?v=","");
             //send request to api with this url as query string
-        let res = await fetch('/api/add-playlist/'+url, {method: 'GET'});
+        let res = await fetch('/api/add-playlist/'+ID+"/"+this.state.title, {method: 'GET'});
             //the backend will deal with fetching the playlist, adding it to DB then respond about whether Ok or not
             //Then we either reroute or inform client to retry
             //we reroute to /playlists
@@ -57,7 +57,7 @@ class createPlaylist extends React.Component {
         }
         else{
             page.innerHTML="An error occurred while saving the playlist, please try again";
-            window.location = "/upload"
+            window.location = "/create"
         }
             // playlists will obtain items from DB and will prepare list of playlists
             // each playlist will route to /playlist/id
