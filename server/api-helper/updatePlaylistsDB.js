@@ -2,24 +2,27 @@ const fetch = require('node-fetch');
 const util = require('util');
 const mongoose = require('mongoose');
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/yt-playlists-organiser'
-
-mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open',()=>{console.log('Connected to DB, ready to update...')});
-
-const playlistModel = require('../models/playlist.model');
-
 const dotenvRes = require('dotenv').config();
 if (dotenvRes.error) {
     throw dotenvRes.error
 }
+
+const uri = process.env.MONGODB_URI// || 'mongodb://localhost:27017/yt-playlists-organiser'
+const playlistModel = require('../models/playlist.model');
+function createConn(){
+    mongoose.connect(uri, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useUnifiedTopology: true
+    });
+
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open',()=>{console.log('Connected to DB, ready to update...')});
+    return db
+}
+
+
 
 //SAMPLE PLAYLIST: 'SAFRAUL WAHY' playlistID = PLo4PWr1VvhkkJZtK1kMWjV5sPee68fRF2
 //SAMPLE VIDEO for creating PLAYLIST anew. ID = INSlXPlG7Cg 
@@ -38,7 +41,7 @@ const fetchPlaylist = async (playlistID) => {
             { method:'GET' })
         .then(res => res.json())
         .then(data => playlistVideos = data)
-        .catch(err=>console.log("plv "+util.inspect(err,false,null,true)))
+        .catch(err=>console.log("fetchPlaylistError: "+util.inspect(err,false,null,true)))
     
     await fetch(
         'https://www.googleapis.com/'+
@@ -51,7 +54,7 @@ const fetchPlaylist = async (playlistID) => {
         { method:'GET' })
         .then(res => res.json())
         .then(data => playlistMetadata = data)
-        .catch(err=>console.log("metapl "+util.inspect(err,false,null,true)))
+        .catch(err=>console.log("playlistMetadataError: "+util.inspect(err,false,null,true)))
     const newPlaylist = {
         snippet: playlistMetadata.items[0].snippet,
         channelTitle: playlistMetadata.items[0].snippet.channelTitle,
@@ -72,7 +75,7 @@ const createNewPlaylist = async (videoID, title) => {
         { method:'GET' })
         .then(res=>res.json())
         .then(data => videoRes = data)
-        .catch(err=> console.log("cnp "+util.inspect(err,false,null,true)))
+        .catch(err=> console.log("createNewPlaylistError: "+util.inspect(err,false,null,true)))
 
     const date = new Date();
     const createdPlaylist = {
@@ -101,22 +104,30 @@ const createNewPlaylist = async (videoID, title) => {
             }
         ]
     }
-    //console.log(createdPlaylist)
+
     return createdPlaylist
 }
 //SOMETHING WRONG WITH MONGOOSE SAVING CREATED PLAYLIST
 async function updatePlaylistDB(playlistID, title){
+    var db = await createConn()
     try{
         const newPlaylist =  title ? await createNewPlaylist(playlistID, title) : await fetchPlaylist(playlistID) ;
+
         let playlist = await new playlistModel(newPlaylist);
+        
         await playlist.save();
+        db.close();
     }
     catch(err){
         console.log( err );
+        db.close();
         return false;
     }
+    return true;
+}
+export default updatePlaylistDB
 
-    //console.log(JSON.stringify(res,null, 4));
+//console.log(JSON.stringify(res,null, 4));
     //console.log(util.inspect(res,false,null,true));
     //necessary details to extract:
       //Playlists{ 
@@ -156,7 +167,5 @@ async function updatePlaylistDB(playlistID, title){
     //       }
     //   ]
     // }
-    return true;
-}
 
-export default updatePlaylistDB
+

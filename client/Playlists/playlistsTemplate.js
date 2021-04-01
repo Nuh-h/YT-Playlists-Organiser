@@ -29,7 +29,7 @@ class Playlists extends React.Component {
             ],
             currentIndex:0
         };
-        this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this);
     }
     async componentDidMount(){
         await fetch('/api/playlists',{method:'GET'})
@@ -41,6 +41,7 @@ class Playlists extends React.Component {
         e.preventDefault();
         this.setState({ currentIndex: e.currentTarget.id });
     }
+
     render(){
         return (
             <div className="playlists-component">
@@ -54,9 +55,10 @@ class Playlists extends React.Component {
                                     <a href={"/playlist/"+playlist._id}>
                                         {playlist.snippet.title ? playlist.snippet.title.substring(0,43)+"..." : "[loading...] "}
                                     </a>
-                                    <div className="playlists-item-meta" >
+                                    <div className="playlists-item-meta" id={playlist._id}>
                                         <p><i>{playlist.channelTitle.substring(0,43)}</i></p>
                                         <p>{playlist.snippet.publishedAt.split('T')[0].split('-').reverse().join(' / ')}</p>
+                                        <a href={"/playlists/delete/"+playlist._id} style={{float:"right"}}> DELETE </a>
                                     </div>
                                 </div>
                             </div>

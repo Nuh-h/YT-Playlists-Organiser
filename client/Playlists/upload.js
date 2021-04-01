@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './../app.css'
-//const fetch = require('node-fetch');
+const fetch = require('node-fetch');
+
 class Upload extends React.Component {
     constructor(props){
         super(props);
