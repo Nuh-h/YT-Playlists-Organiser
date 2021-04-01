@@ -5,8 +5,8 @@
   "author": "NX3",
   "license": "MIT",
   "engines": {
-    "node":"15.x",
-    "yarn":"1.x"
+    "node": "15.x",
+    "yarn": "1.x"
   },
   "dependencies": {
     "@hot-loader/react-dom": "16.13.0",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "@babel/core": "7.13.14",
     "@babel/preset-env": "7.13.12",
-    "@babel/preset-react": "^7.13.13",
+    "@babel/preset-react": "7.13.13",
     "babel-loader": "8.2.2",
     "nodemon": "2.0.7",
     "webpack": "5.28.0",
