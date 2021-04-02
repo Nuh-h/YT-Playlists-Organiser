@@ -2,10 +2,10 @@ const fetch = require('node-fetch');
 const util = require('util');
 const mongoose = require('mongoose');
 
-const dotenvRes = require('dotenv').config();
-if (dotenvRes.error) {
-    throw dotenvRes.error
-}
+// const dotenvRes = require('dotenv').config();
+// if (dotenvRes.error) {
+//     throw dotenvRes.error
+// }
 
 const uri = process.env.MONGODB_URI// || 'mongodb://localhost:27017/yt-playlists-organiser'
 const playlistModel = require('../models/playlist.model');
