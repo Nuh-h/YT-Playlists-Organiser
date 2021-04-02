@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Organise your videos into playlists or load playlists from elsewhere and take control of the order",
   "author": "NX3",
+  "main":"./dist/server-generated.js",
   "license": "MIT",
   "engines": {
     "node": "15.x",
@@ -38,6 +39,6 @@
     "dev": "nodemon",
     "clb": "webpack --config webpack.config.client.js",
     "build": "webpack --config webpack.config.client.production.js && webpack --mode=production --config webpack.config.server.js",
-    "start": "NODE_ENV=production node ./dist/server-generated.js"
+    "start": "SET NODE_ENV=production && node ./dist/server-generated.js"
   }
 }

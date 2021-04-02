@@ -1,16 +1,15 @@
-import mongoose from 'mongoose'
-import express from 'express'
-import path from 'path'
-import config from './../config/config'
+const mongoose = require('mongoose')
+const express = require('express')
+const path = require('path')
+//const config = require('./../config/config')
 import template from './../template'
 /** dev mode only*/
-//import devBundle from './devBundle'
+import devBundle from './devBundle'
 import updatePlaylistDB from './api-helper/updatePlaylistsDB'
-import { db } from './models/playlist.model'
 
 const app = express() //Express App -- to be used to build the rest of the Node server application
 /** dev mode only*/
-//devBundle.compile(app) //use middleware and hot-reloader
+devBundle.compile(app) //use middleware and hot-reloader
 
 const CURRENT_WORKING_DIR = process.cwd()
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR,'dist')))

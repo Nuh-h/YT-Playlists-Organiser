@@ -30,6 +30,4 @@ const config = {
         ]
     }
 }
-//targets Node so that it customise favourably towards node (& node is the server)
-//nodeExternals creates a compilation of modules to ignore specifically node_modules
 module.exports = config
