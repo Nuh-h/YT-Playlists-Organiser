@@ -39,6 +39,6 @@
     "dev": "nodemon",
     "clb": "webpack --config webpack.config.client.js",
     "build": "webpack --config webpack.config.client.production.js && webpack --mode=production --config webpack.config.server.js",
-    "start": "SET NODE_ENV=production && node ./dist/server-generated.js"
+    "start": "NODE_ENV=production && node ./dist/server-generated.js"
   }
 }
