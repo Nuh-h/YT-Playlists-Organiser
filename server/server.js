@@ -59,6 +59,9 @@ app.get('/api/add-playlist/:ID', async (req, res)=>{
         res.status(404).json({ok:false});
     }
 })
+if(process.env.NODE_ENV!=='Production'){
+    require('dotenv').config()
+}
 //preparation for connecting to the database
 const uri = process.env.MONGODB_URI //|| 'mongodb://localhost:27017/yt-playlists-organiser'
 function connect(){
