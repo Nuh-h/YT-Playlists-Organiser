@@ -51,6 +51,8 @@ class Playlist extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleVideoControls = this.handleVideoControls.bind(this);
+        this.handleNextVideo = this.handleNextVideo.bind(this);
+        this.handlePreviousVideo = this.handlePreviousVideo.bind(this);
     }
     async componentDidMount(){
         //Temporarily using the window url
@@ -68,6 +70,19 @@ class Playlist extends React.Component {
         if(e.target.href){
             window.open(e.target.href)
         }
+    }
+    handleNextVideo(e){
+        e.preventDefault();
+        var val = Math.round((this.state.currentIndex+1)%(this.state.playlist.items.length));
+        this.setState({ currentIndex: val });
+        console.log(this.state.currentIndex)
+    }
+    handlePreviousVideo(e){
+        e.preventDefault();
+        //DOESN'T QUITE WORK AS WELL WHEN IT GOES BELOW ZERO.
+        var val = Math.round((this.state.currentIndex-1)%(this.state.playlist.items.length));
+        this.setState({ currentIndex: val });
+        console.log(this.state.currentIndex)
     }
     handleVideoControls(e){
         e.preventDefault();
@@ -95,18 +110,16 @@ class Playlist extends React.Component {
                     </iframe>
                     <div className="video-control-bar">
                         <div className="video-control-buttons">
-                            < AiFillEdit />
-                            < BiCaretRight />
-                            < BiCaretLeft />
-                            < BiPause />
-                            < BiPlay />
-                            < BiPlus />
-                            < BiShuffle />
-                            < BiShareAlt /> 
+                            < AiFillEdit style={{cursor:"pointer"}}/>
+                            < BiCaretRight onClick={this.handleNextVideo} style={{cursor:"pointer"}}/>
+                            < BiCaretLeft onClick={this.handlePreviousVideo} style={{cursor:"pointer"}}/>
+                            < BiPause style={{cursor:"pointer"}}/>
+                            < BiPlay style={{cursor:"pointer"}}/>
+                            < BiPlus style={{cursor:"pointer"}}/>
+                            < BiShuffle style={{cursor:"pointer"}}/>
+                            < BiShareAlt style={{cursor:"pointer"}}/> 
                         </div>
-                        
                         <div className="video-control-bar-handle" onClick = {this.handleVideoControls}></div>
-                        {/* battery-bar-code-pen.txt */}
                     </div>
                 </div>
                 

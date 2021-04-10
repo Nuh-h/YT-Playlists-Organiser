@@ -14,6 +14,7 @@ class Upload extends React.Component {
         return (
             <div className="upload-div" >
                 <form onSubmit={this.handleSubmit} >
+                    Enter playlist url to load and save
                     <input type="url" 
                         pattern="https://www.youtube.com/playlis[tT][?]list[=]?.*"
                         placeholder="e.g. https://www.youtube.com/playlist?list={id}" 

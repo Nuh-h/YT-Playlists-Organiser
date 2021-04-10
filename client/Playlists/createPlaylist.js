@@ -14,7 +14,8 @@ class createPlaylist extends React.Component {
         return (
             <div className="create-div">
                 <form onSubmit={this.handleSubmit} >
-                    <input placeholder="Enter playlist title..." 
+                    Enter playlist title and then first video url
+                    <input placeholder="Enter your new playlist title..." 
                             onChange={this.updateTitle}
                             value={this.state.title} required></input>
                     <input type="url" 
