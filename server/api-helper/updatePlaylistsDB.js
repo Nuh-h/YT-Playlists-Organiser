@@ -2,10 +2,12 @@ const fetch = require('node-fetch');
 const util = require('util');
 const mongoose = require('mongoose');
 
-// const dotenvRes = require('dotenv').config();
-// if (dotenvRes.error) {
-//     throw dotenvRes.error
-// }
+if(process.env.NODE_ENV !== 'production'){
+    const dotenvRes = require('dotenv').config();
+    if (dotenvRes.error) {
+        throw dotenvRes.error
+    }
+}
 
 const uri = process.env.MONGODB_URI// || 'mongodb://localhost:27017/yt-playlists-organiser'
 const playlistModel = require('../models/playlist.model');
@@ -35,7 +37,7 @@ const fetchPlaylist = async (playlistID) => {
             'part=snippet%2CcontentDetails&maxResults=50'+
             '&playlistId='+playlistID+
             '&fields=nextPageToken'+
-            '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails(default(url)))'+
+            '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails))'+
             '%2CcontentDetails)'+
             '&key='+process.env.MY_KEY,
             { method:'GET' })
@@ -49,7 +51,7 @@ const fetchPlaylist = async (playlistID) => {
         'part=snippet,contentDetails'+
         '&maxResults=5&id='+
         playlistID+
-        '&fields=items(snippet(publishedAt,channelId,title,description,channelTitle,thumbnails(medium)))'+
+        '&fields=items(snippet(publishedAt,channelId,title,description,channelTitle,thumbnails))'+
         '&key='+process.env.MY_KEY,
         { method:'GET' })
         .then(res => res.json())
@@ -70,7 +72,7 @@ const createNewPlaylist = async (videoID, title) => {
         'https://www.googleapis.com/youtube/v3/videos?'+
         '&id='+videoID+
         '&part=snippet,contentDetails'+
-        '&fields=items(id,snippet(publishedAt,title,channelId,description,thumbnails(medium(url))),contentDetails)'+
+        '&fields=items(id,snippet(publishedAt,title,channelId,description,thumbnails),contentDetails)'+
         '&key='+process.env.MY_KEY,
         { method:'GET' })
         .then(res=>res.json())
@@ -85,7 +87,11 @@ const createNewPlaylist = async (videoID, title) => {
             title: title,
             description: '',
             thumbnails: {
-              medium: {url: videoRes.items[0].snippet.thumbnails.medium.url }
+              medium: {url: videoRes.items[0].snippet.thumbnails.medium.url ||
+                videoRes.items[0].snippet.thumbnails.default.url ||
+                videoRes.items[0].snippet.thumbnails.standard.url ||
+                 videoRes.items[0].snippet.thumbnails.high.url ||
+                 videoRes.items[0].snippet.thumbnails.maxres.url }
             },
         },
         channelTitle: title,
@@ -95,7 +101,11 @@ const createNewPlaylist = async (videoID, title) => {
                 publishedAt: videoRes.items[0].snippet.publishedAt,
                 title: videoRes.items[0].snippet.title,
                 description: videoRes.items[0].snippet.description,
-                thumbnails: {default:{url: videoRes.items[0].snippet.thumbnails.medium.url }}
+                thumbnails: {default:{url: videoRes.items[0].snippet.thumbnails.medium.url ||
+                                 videoRes.items[0].snippet.thumbnails.default.url ||
+                                 videoRes.items[0].snippet.thumbnails.standard.url ||
+                                  videoRes.items[0].snippet.thumbnails.high.url ||
+                                  videoRes.items[0].snippet.thumbnails.maxres.url }}
               },
               contentDetails: {
                 videoId: videoRes.items[0].id,
@@ -107,7 +117,6 @@ const createNewPlaylist = async (videoID, title) => {
 
     return createdPlaylist
 }
-//SOMETHING WRONG WITH MONGOOSE SAVING CREATED PLAYLIST
 async function updatePlaylistDB(playlistID, title){
     var db = await createConn()
     try{

@@ -12,14 +12,14 @@ class createPlaylist extends React.Component {
     }
     render(){
         return (
-            <div className="create-div" style={{backgroundColor:this.state.url==""?"powderblue":"midnightblue"}}>
+            <div className="create-div">
                 <form onSubmit={this.handleSubmit} >
                     <input placeholder="Enter playlist title..." 
                             onChange={this.updateTitle}
                             value={this.state.title} required></input>
                     <input type="url" 
                             pattern="https://www.youtube.com/watch[?]v=?.*"
-                            placeholder="eg. https://www.youtube.com/watch?v={id}" 
+                            placeholder="e.g. https://www.youtube.com/watch?v={id}" 
                             onChange={this.updateUrl}
                             value={this.state.url} required></input>
                     <button type="submit" >CREATE</button>
@@ -44,7 +44,7 @@ class createPlaylist extends React.Component {
         const page = document.querySelector(".create-div");
         page.innerHTML = "Please wait while we create the playlist...";
 
-
+        
         const ID = this.state.url.replace("https://www.youtube.com/watch?v=","");
             //send request to api with this url as query string
         let res = await fetch('/api/add-playlist/'+ID+"/"+this.state.title, {method: 'GET'});

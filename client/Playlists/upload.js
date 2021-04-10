@@ -12,11 +12,11 @@ class Upload extends React.Component {
     }
     render(){
         return (
-            <div className="upload-div" style={{ backgroundColor:this.state.url==""?"powderblue":"midnightblue" }} >
+            <div className="upload-div" >
                 <form onSubmit={this.handleSubmit} >
                     <input type="url" 
                         pattern="https://www.youtube.com/playlis[tT][?]list[=]?.*"
-                        placeholder="eg. https://www.youtube.com/playlist?list={id}" 
+                        placeholder="e.g. https://www.youtube.com/playlist?list={id}" 
                         onChange={this.handleChange}
                         value={this.state.url} required></input>
                     <button type="submit"> LOAD </button>

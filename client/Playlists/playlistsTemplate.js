@@ -1,6 +1,9 @@
 //This page will list all the playlists of the user
-import React from 'react'
-import './../app.css'
+import React from 'react';
+import './../app.css';
+
+import { RiDeleteBin2Line } from 'react-icons/ri';
+
 
 class Playlists extends React.Component {
     constructor(props){
@@ -53,13 +56,13 @@ class Playlists extends React.Component {
                                 <img src={playlist.snippet.thumbnails.medium.url}></img>
                                 <div className="playlists-item-snippet">
                                     <a href={"/playlist/"+playlist._id}>
-                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,43)+"..." : "[loading...] "}
+                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,40) : "[loading...] "}
                                     </a>
                                     <div className="playlists-item-meta" id={playlist._id}>
                                         <p><i>{playlist.channelTitle.substring(0,43)}</i></p>
                                         <p>{playlist.snippet.publishedAt.split('T')[0].split('-').reverse().join(' / ')}</p>
-                                        <a href={"/playlists/delete/"+playlist._id} style={{float:"right"}}> DELETE </a>
                                     </div>
+                                    <a href={"/playlists/delete/"+playlist._id} style={{float:"right"}}> <RiDeleteBin2Line/> </a>
                                 </div>
                             </div>
                         ))

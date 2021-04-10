@@ -3,31 +3,31 @@
   "version": "1.0.0",
   "description": "Organise your videos into playlists or load playlists from elsewhere and take control of the order",
   "author": "NX3",
-  "main":"./dist/server-generated.js",
+  "main": "./dist/server-generated.js",
   "license": "MIT",
   "engines": {
     "node": "15.x",
     "yarn": "1.x"
   },
   "dependencies": {
+    "@babel/core": "7.13.14",
+    "@babel/preset-env": "7.13.12",
+    "@babel/preset-react": "7.13.13",
     "@hot-loader/react-dom": "16.13.0",
+    "babel-loader": "8.2.2",
     "css-loader": "5.2.0",
     "dotenv": "8.2.0",
     "express": "4.17.1",
     "mongodb": "3.6.5",
     "mongoose": "5.12.2",
     "node-fetch": "2.6.1",
+    "nodemon": "2.0.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hot-loader": "4.13.0",
+    "react-icons": "^4.2.0",
     "react-router-dom": "5.2.0",
     "style-loader": "2.0.0",
-    
-    "@babel/core": "7.13.14",
-    "@babel/preset-env": "7.13.12",
-    "@babel/preset-react": "7.13.13",
-    "babel-loader": "8.2.2",
-    "nodemon": "2.0.7",
     "webpack": "5.28.0",
     "webpack-cli": "4.5.0",
     "webpack-dev-middleware": "4.1.0",
@@ -36,7 +36,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "clb": "webpack --config webpack.config.client.js",
+    "client-build": "webpack --config webpack.config.client.js",
     "build": "webpack --config webpack.config.client.production.js && webpack --mode=production --config webpack.config.server.js",
     "start": "NODE_ENV=production && node ./dist/server-generated.js"
   }

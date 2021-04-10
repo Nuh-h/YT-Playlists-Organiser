@@ -13,14 +13,16 @@ const App = () => {
     return (
         <div className="App" >  
             <h1> YT: Playlists Organiser</h1>
-            < MenuBar />
-            <Switch>
-                <Route exact path="/" component={Home}/>
-                <Route exact path="/upload" component={Upload}/>
-                <Route exact path="/create" component={Create}/>
-                <Route exact path="/playlist/:ID" component={Playlist} />
-                <Route exact path="/playlists" component={Playlists}/>
-            </Switch>
+            <div className="menu-plus-component">
+                < MenuBar />
+                <Switch>
+                    <Route exact path="/" component={Home}/>
+                    <Route exact path="/upload" component={Upload}/>
+                    <Route exact path="/create" component={Create}/>
+                    <Route exact path="/playlist/:ID" component={Playlist} />
+                    <Route exact path="/playlists" component={Playlists}/>
+                </Switch> 
+            </div>
         </div>
     )
 }

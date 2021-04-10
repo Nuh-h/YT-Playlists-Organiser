@@ -8,7 +8,7 @@ export default () => {
             <link rel="stylesheet"></link>
         </head>
         <body>
-            <div id="root" style="max-width:700px;"></div>
+            <div id="root"></div>
             <script type="text/javascript" src="/dist/bundle.js">  </script>
         </body>
     </html>`

@@ -5,11 +5,18 @@ const path = require('path')
 import template from './../template'
 /** dev mode only*/
 import devBundle from './devBundle'
+
 import updatePlaylistDB from './api-helper/updatePlaylistsDB'
 
 const app = express() //Express App -- to be used to build the rest of the Node server application
+
 /** dev mode only*/
-devBundle.compile(app) //use middleware and hot-reloader
+if(process.env.NODE_ENV!=='production'){
+    require('dotenv').config();
+    
+    devBundle.compile(app) //use middleware and hot-reloader
+}
+
 
 const CURRENT_WORKING_DIR = process.cwd()
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR,'dist')))
@@ -37,7 +44,6 @@ app.get('/playlist/:ID', function callback(req,res){
 app.get('/api/add-playlist/:ID/:TITLE', async (req, res)=>{
     let id = req.params.ID;
     let title = req.params.TITLE;
-
     var updated = await updatePlaylistDB(id,title);
     if(updated){
         res.status(200).json({ok:true});
@@ -59,9 +65,7 @@ app.get('/api/add-playlist/:ID', async (req, res)=>{
         res.status(404).json({ok:false});
     }
 })
-if(process.env.NODE_ENV!=='Production'){
-    require('dotenv').config()
-}
+
 //preparation for connecting to the database
 const uri = process.env.MONGODB_URI //|| 'mongodb://localhost:27017/yt-playlists-organiser'
 function connect(){

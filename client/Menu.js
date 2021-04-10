@@ -18,6 +18,9 @@ const MenuBar = ()=>{
             <a href="/create" style={anchorStyle}>
                 Create
             </a>
+            <a href="/playlists" style={anchorStyle}>
+                Playlists
+            </a>
         </div>
     )
 }
