@@ -11,16 +11,16 @@ const MenuBar = ()=>{
     return (
         <div className="MenuBar" >
             <a href="/" style={anchorStyle}>
-                <BiHome/> Home
+                <BiHome/> <p>Home</p>
             </a>
             <a href="/upload" style={anchorStyle}>
-                <BiUpload/> Upload
+                <BiUpload/> <p>Upload</p>
             </a>
             <a href="/create" style={anchorStyle}>
-                <BiBookAdd/> Create
+                <BiBookAdd/> <p>Create</p>
             </a>
             <a href="/playlists" style={anchorStyle}>
-                <BiCollection/> Playlists
+                <BiCollection/> <p>Playlists</p>
             </a>
         </div>
     )

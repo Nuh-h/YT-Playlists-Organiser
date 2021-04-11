@@ -4,6 +4,13 @@ import './../app.css';
 
 import { RiDeleteBin2Line } from 'react-icons/ri';
 
+//This component renders to view the list of playlists saved in the DB
+// It sends a fetch request to my api endpoint /api/playlists after the
+//  the component is loaded (componentDidMount), then stores the response
+// in the state 'playlists'. And from there we have the data to inject into the HTML
+
+//There is a delete button that triggers deletion of a playlist at endpoint /playlists/delete/id
+//Looking to add an option to edit title (through popup perhaps) but definitely going to enable reordering somehow.
 
 class Playlists extends React.Component {
     constructor(props){
@@ -35,12 +42,14 @@ class Playlists extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
     async componentDidMount(){
+        //fetch playlists from db
         await fetch('/api/playlists',{method:'GET'})
         .then(res => res.json())
         .then(data => this.setState({ playlists: data }))
         .catch(err => console.log(err))
     }
     handleChange(e){
+        //this will be useful, with modification, when reordering
         e.preventDefault();
         this.setState({ currentIndex: e.currentTarget.id });
     }
@@ -48,7 +57,7 @@ class Playlists extends React.Component {
     render(){
         return (
             <div className="playlists-component">
-                  <h4> My Playlists</h4>
+                  <h4> My Playlists </h4>
                   <div className="playlists-container">
                     {
                         this.state.playlists.map((playlist,index)=>(
@@ -56,7 +65,7 @@ class Playlists extends React.Component {
                                 <img src={playlist.snippet.thumbnails.medium.url}></img>
                                 <div className="playlists-item-snippet">
                                     <a href={"/playlist/"+playlist._id}>
-                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,20)+ "..." : "[loading...] "}
+                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,20)+ "..." : "[Possible error...] "}
                                     </a>
                                     <div className="playlists-item-meta" id={playlist._id}>
                                         <p><i>{playlist.channelTitle.substring(0,23)}</i></p>

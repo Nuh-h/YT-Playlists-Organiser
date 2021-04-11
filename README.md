@@ -11,6 +11,10 @@ Early stages are complete. You can upload an existing playlist or create anew, a
 
 Next stage: Refactor code esp. server side and package.json. Start adding core features such as enabling adding a new video to playlist, re-arranging or removal of videos.
 
+## Component Hierarchy
+A brief component hierarchy.
+![component hierarchy](component_hierarchy.png)
+
 ## How to run this on your machine
 Clone this repo to your local/virtual machine. Make sure you have MongoDB and Node running on your machine, and have either Yarn or NPM installed.
 

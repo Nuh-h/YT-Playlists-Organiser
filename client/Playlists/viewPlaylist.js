@@ -5,7 +5,19 @@ import React from 'react'
 import './../app.css'
 
 import { AiFillEdit } from 'react-icons/ai';
-import { BiCaretRight, BiCaretLeft, BiPause, BiPlay, BiPlus, BiShuffle, BiShareAlt  } from 'react-icons/bi';
+import { BiRightArrowAlt, BiLeftArrowAlt, BiPause, BiPlay, BiPlus, BiShuffle, BiShareAlt  } from 'react-icons/bi';
+
+//This component essentially has to parts to it which has to do with the basic properties of a playlist
+// First part is a video-player through use of iframe. At the moment, there's a cupboard style toolbox 
+// that can be used to navigate between videos. The features will be enabled gradually, but for now YouTube is doing all the work.
+// Second part is maintaining a queue of videos to be watched. This is very simple and has some click handlers
+//  that update the first part on what video to be  watched.
+
+// The data is fetched through api endpoint playlist/id and the playlist state stores the data.
+// The currentIndex state keeps check of which video is being shown on the iframe video-player.
+
+//TODO: Play with Iframe to improve video-play features. Enable editing video title  and re-ordering, deleting, sharing (icons: pen, x, share)
+//  To be separated into smaller components
 
 class Playlist extends React.Component {
     constructor(props){
@@ -79,26 +91,31 @@ class Playlist extends React.Component {
     }
     handlePreviousVideo(e){
         e.preventDefault();
-        //DOESN'T QUITE WORK AS WELL WHEN IT GOES BELOW ZERO.
+
+        //if the index is first video, then exit
+        if(this.state.currentIndex==0) return;
+
+        //otherwise, go to previous video (with respect to order) 
         var val = Math.round((this.state.currentIndex-1)%(this.state.playlist.items.length));
         this.setState({ currentIndex: val });
-        console.log(this.state.currentIndex)
     }
     handleVideoControls(e){
         e.preventDefault();
         var videoControlBarHandle = document.querySelector('.video-control-bar-handle').classList;
         var videoControlBar = document.querySelector('.video-control-bar').classList;
+        var videoControlButtons = document.querySelector('.video-control-buttons').classList;
 
         if(videoControlBarHandle.length!=2){
             videoControlBarHandle.add('clicked');
-            videoControlBar.add('clicked')
+            videoControlBar.add('clicked');
+            videoControlButtons.add('clicked');
         } 
         else{
             videoControlBarHandle.remove('clicked');
-            videoControlBar.remove('clicked')
-        }
+            videoControlBar.remove('clicked');
+            videoControlButtons.remove('clicked');
 
-        //console.log(videoControlBarHandle,videoControlBar)
+        }
     }
     render(){
         var content = this.state.playlist.items[this.state.currentIndex] 
@@ -106,26 +123,29 @@ class Playlist extends React.Component {
             <div className="view-playlist-div" >
                 <div className="video-frame-container">
                     <iframe src={"https://www.youtube.com/embed/"+content.contentDetails.videoId} 
-                        title={content.snippet.title} >
+                        title={content.snippet.title} 
+                        allowFullScreen loading="lazy"
+                        >
+                            <p>Your browser does not support iframes.</p>
                     </iframe>
+
+                    {/*Original idea: Add custom span here that will on click reveal a transparent column div with metallic buttons for repeat, auto, next, shuffle etc. */}
                     <div className="video-control-bar">
                         <div className="video-control-buttons">
-                            < AiFillEdit style={{cursor:"pointer"}}/>
-                            < BiCaretRight onClick={this.handleNextVideo} style={{cursor:"pointer"}}/>
-                            < BiCaretLeft onClick={this.handlePreviousVideo} style={{cursor:"pointer"}}/>
-                            < BiPause style={{cursor:"pointer"}}/>
-                            < BiPlay style={{cursor:"pointer"}}/>
-                            < BiPlus style={{cursor:"pointer"}}/>
-                            < BiShuffle style={{cursor:"pointer"}}/>
-                            < BiShareAlt style={{cursor:"pointer"}}/> 
+                            < BiRightArrowAlt onClick={this.handleNextVideo} />
+                            < BiLeftArrowAlt onClick={this.handlePreviousVideo} />
+                            < BiPause />
+                            < BiPlay />
+                            {/* < BiPlus /> */}
+                            < BiShuffle />
+                            < BiShareAlt /> 
                         </div>
                         <div className="video-control-bar-handle" onClick = {this.handleVideoControls}></div>
                     </div>
                 </div>
                 
-                {/* Add custom span here that will on click reveal a transparent column div with metallic buttons for repeat, auto, next, shuffle etc. */}
                 <div className="playlist-items-container">
-                    {
+                    { 
                         this.state.playlist.items.map((item,index) => (
                             <div id={index} tabIndex="0" className = "playlist-item"
                                 style={{ background:this.state.currentIndex==index?"rgba(0,0,10,.7)":""}} 

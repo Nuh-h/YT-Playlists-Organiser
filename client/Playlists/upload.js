@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom'
 import './../app.css'
 const fetch = require('node-fetch');
 
+//This component renders a simple page that ask for a YT playlist url input from the user
+// The submit handler will send the playlist id to the backend through GET request
+// The backend will then deal with fetching all the details from YouTube
+// If successful, user will be redirected to /playlists. Otherwise, refreshes page to try again
+
 class Upload extends React.Component {
     constructor(props){
         super(props);
@@ -36,7 +41,7 @@ class Upload extends React.Component {
           return;
         }
         const page = document.querySelector(".upload-div");
-        page.innerHTML = "Please wait while we load the playlist...";
+        page.innerHTML = "Loading playlist...";
 
 
         const url = this.state.url.replace("https://www.youtube.com/playlist?list=","");
@@ -51,10 +56,10 @@ class Upload extends React.Component {
         }
         else{
             page.innerHTML="An error occurred while saving the playlist, please try again";
-            window.location = "/upload"
+            setTimeout(()=>{window.location = "/upload"},3000);
         }
-        //playlists will obtain items from DB and will prepare list of playlists
-        //each playlist will route to /playlist/id
+        // /playlists will obtain items from DB and will prepare list of playlists
+        // each playlist will link to /playlist/id for viewing and watching the videos
       }
 }
 

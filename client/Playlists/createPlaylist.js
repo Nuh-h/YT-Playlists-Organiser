@@ -1,6 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './../app.css'
+
+//This component renders a simple page that takes in two inputs from the user
+////it takes a Title and a YT video url. The title will be the name of the new playlist to be created, 
+// and video url will be such that it will be the first video contained in the playlist
+
+//
+
 class createPlaylist extends React.Component {
     constructor(props){
         super(props);
@@ -43,25 +50,24 @@ class createPlaylist extends React.Component {
           return;
         }
         const page = document.querySelector(".create-div");
-        page.innerHTML = "Please wait while we create the playlist...";
+        page.innerHTML = "Creating playlist...";
 
         
         const ID = this.state.url.replace("https://www.youtube.com/watch?v=","");
-            //send request to api with this url as query string
+            //send request to api with this url and title
         let res = await fetch('/api/add-playlist/'+ID+"/"+this.state.title, {method: 'GET'});
             //the backend will deal with fetching the playlist, adding it to DB then respond about whether Ok or not
-            //Then we either reroute or inform client to retry
-            //we reroute to /playlists
+            //Then we either reroute /playlists or inform client to retry by rerouting to /create
         if(res.ok){
-            page.innerHTML="Playlist added successfully! Please wait to be redirected ....";
+            page.innerHTML="Playlist added successfully! Please wait to be redirected...";
             window.location = "/playlists";
         }
         else{
-            page.innerHTML="An error occurred while saving the playlist, please try again";
-            window.location = "/create"
+            page.innerHTML="An error occurred while saving the playlist, please try again...";
+            setTimeout(()=>{window.location = "/create"},3000);
         }
-            // playlists will obtain items from DB and will prepare list of playlists
-            // each playlist will route to /playlist/id
+            // playlistsTemplate component (/playlists) will obtain items from DB and will prepare list of playlists
+            // each playlist will direct to /playlist/id (viewPlaylists component) on click 
       }
 }
 
