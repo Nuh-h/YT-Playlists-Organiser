@@ -4,8 +4,6 @@ The current version of the site is live at: https://yt-playlists-organiser.herok
 
 As the name suggests, the intention for this project is to be able to fetch, load, organise and manage playlists (of videos specifically from YouTube at the moment). That is to say, enable Creating, Reading, Updating and Deleting (CRUD operations on) playlists and their videos.
 
-Tested with hosting it on Heroku and works as good as on local machine. It will require some (mostly security-related) preparations before the project website is made public. 
-
 ## Current Progress
 Early stages are complete. You can upload an existing playlist or create anew, and view it. Lists of all playlists are available, and can also delete any playlist so far.
 
