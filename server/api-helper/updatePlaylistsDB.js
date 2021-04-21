@@ -94,7 +94,7 @@ const createNewPlaylist = async (videoID, title) => {
                  videoRes.items[0].snippet.thumbnails.maxres.url }
             },
         },
-        channelTitle: title,
+        channelTitle: 'You (current user)',
         items: [
             {
               snippet: {

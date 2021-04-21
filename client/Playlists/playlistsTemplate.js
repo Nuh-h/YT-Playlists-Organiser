@@ -2,7 +2,8 @@
 import React from 'react';
 import './../app.css';
 
-import { RiDeleteBin2Line } from 'react-icons/ri';
+import { RiDeleteBin2Line, RiShareBoxFill, RiWallet2Fill } from 'react-icons/ri';
+import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 
 //This component renders to view the list of playlists saved in the DB
 // It sends a fetch request to my api endpoint /api/playlists after the
@@ -23,7 +24,7 @@ class Playlists extends React.Component {
                     snippet: {
                         publishedAt: "2016-07-22T12:21:58Z",
                         channelId: "UCzHThNXawJPlt_CtgFeG1-A",
-                        title: "برنامج  سفراء الوحي 2016",
+                        title: "PLACEHOLDER PLAYLIST",
                         description: "",
                         thumbnails: {
                             medium: {
@@ -39,7 +40,7 @@ class Playlists extends React.Component {
             ],
             currentIndex:0
         };
-        this.handleChange = this.handleChange.bind(this);
+        this.handleSettings = this.handleSettings.bind(this);
     }
     async componentDidMount(){
         //fetch playlists from db
@@ -48,10 +49,10 @@ class Playlists extends React.Component {
         .then(data => this.setState({ playlists: data }))
         .catch(err => console.log(err))
     }
-    handleChange(e){
+    handleSettings(e){
         //this will be useful, with modification, when reordering
-        e.preventDefault();
-        this.setState({ currentIndex: e.currentTarget.id });
+        e.preventDefault();        
+        document.querySelector(`.settings${e.target.id}`).classList.toggle('settings-on');
     }
 
     render(){
@@ -64,14 +65,23 @@ class Playlists extends React.Component {
                             <div id={index} className="playlists-item" tabIndex="0">
                                 <img src={playlist.snippet.thumbnails.medium.url}></img>
                                 <div className="playlists-item-snippet">
-                                    <a href={"/playlist/"+playlist._id}>
-                                        {playlist.snippet.title ? playlist.snippet.title.substring(0,20)+ "..." : "[Possible error...] "}
-                                    </a>
+                                    <div>
+                                        <a href={"/playlist/"+playlist._id}>
+                                            {playlist.snippet.title}
+                                        </a>
+                                        <span style={{float:"right"}}>
+                                            <IoEllipsisHorizontalSharp  id={index} onClick={this.handleSettings}/>
+                                            <div className={`settings${index} settings`}>
+                                                <a href={"/playlists/delete/"+playlist._id} style={{float:"right"}}> <RiDeleteBin2Line/> </a>
+                                                <RiShareBoxFill />
+                                                <RiWallet2Fill />
+                                            </div>
+                                        </span>
+                                    </div>
                                     <div className="playlists-item-meta" id={playlist._id}>
-                                        <p><i>{playlist.channelTitle.substring(0,23)}</i></p>
+                                        <p><i>{playlist.channelTitle}</i></p>
                                         <p>{playlist.snippet.publishedAt.split('T')[0].split('-').reverse().join(' / ')}</p>
                                     </div>
-                                    <a href={"/playlists/delete/"+playlist._id} style={{float:"right"}}> <RiDeleteBin2Line/> </a>
                                 </div>
                             </div>
                         ))

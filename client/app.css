@@ -156,36 +156,40 @@ h4 {
     display:flex;
     flex-direction:row;
     flex-wrap:wrap;
-    margin-bottom:5%;
+    /* margin-bottom:5%; */
+    justify-content: space-evenly;
+}
+.playlists-item-snippet div span {
+    position:relative;
+    font-size: 25px;
+    padding-right:5px;
+    justify-content:center;
+}
+.playlists-item-snippet div span svg {
+    cursor:pointer;
+}
+.settings {
+    background-color:white;
+    position:fixed;
+    display:none;
+}
+.settings-on {
+    display:flex;
+    width:max-content;
+    padding:10px;
+    transform: translateX(-75%);
 }
 .playlists-item {
-    background-color:rgba(0,0,0,.7);
-    border-radius:10px;
-    margin:.8% auto;
+    /* background-color:rgba(0,0,0,.7); */
+    margin-bottom:15px;
+    border:1px dashed black;
+}
+.playlists-item p, .playlists-item a{
     padding-left:1%;
-    width:min-content;
 }
-.playlists-item img {
-    padding:2%;
-    margin-left:-5px;
-    width:170px;
-    height:auto;
-    border-radius:15px;
-}
-.playlists-item a {
-    color:cyan;
-    font-size:16px;
-    text-overflow:wrap;
-}
-img { width: 150px; }
-/* .playlists-item-snippet {
-    padding-left:3%;
-} */
-a { font-size: 19px; }
 .playlists-item-meta {
     background-color: rgb(153, 98, 27);
 }
-
 
 
 /* viewPlaylist component */
