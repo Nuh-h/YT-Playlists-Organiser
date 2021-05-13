@@ -164,6 +164,7 @@ h4 {
     font-size: 25px;
     padding-right:5px;
     justify-content:center;
+    
 }
 .playlists-item-snippet div span svg {
     cursor:pointer;
@@ -180,10 +181,38 @@ h4 {
     transform: translateX(-75%);
 }
 .playlists-item {
-    /* background-color:rgba(0,0,0,.7); */
+    /* background-color:rgba(0,0,0,.7); */ /*Original color*/
+    background-color:rgba(0, 0, 0, 0.836); 
     margin-bottom:15px;
     border:1px dashed black;
+    /* background-color:rgba(7, 168, 231, 0.493); */
 }
+.playlists-item .play-overlay {
+    height:0;
+    display:none;
+}
+.playlists-item:hover .play-overlay{
+    display:flex;
+    background-color:rgba(0, 0, 0, 0.692);
+    width:310px;
+    height:180px;
+    position:absolute;
+    cursor:pointer;
+    text-decoration: none;
+
+}
+.play-overlay span {
+    margin:0 auto;
+    transform: translateY(30%);
+    font-size:70px;
+}
+.playlists-item a{
+    color:rgb(1, 216, 216);
+}
+.playlists-item a:hover{
+    color:teal;
+}
+
 .playlists-item p, .playlists-item a{
     padding-left:1%;
 }

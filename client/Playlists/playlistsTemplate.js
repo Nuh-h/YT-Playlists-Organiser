@@ -2,7 +2,7 @@
 import React from 'react';
 import './../app.css';
 
-import { RiDeleteBin2Line, RiShareBoxFill, RiWallet2Fill } from 'react-icons/ri';
+import { RiDeleteBin2Line, RiShareBoxFill, RiWallet2Fill, RiPlayFill, RiPlayCircleFill } from 'react-icons/ri';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5'
 
 //This component renders to view the list of playlists saved in the DB
@@ -63,6 +63,10 @@ class Playlists extends React.Component {
                     {
                         this.state.playlists.map((playlist,index)=>(
                             <div id={index} className="playlists-item" tabIndex="0">
+                                
+                                <a className="play-overlay" href={"/playlist/"+playlist._id}>
+                                  <span><RiPlayCircleFill/> </span>
+                                </a>
                                 <img src={playlist.snippet.thumbnails.medium.url}></img>
                                 <div className="playlists-item-snippet">
                                     <div>
