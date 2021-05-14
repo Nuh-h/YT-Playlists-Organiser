@@ -36,13 +36,13 @@ const fetchPlaylist = async (playlistID) => {
             'https://youtube.googleapis.com/youtube/v3/playlistItems?'+
             'part=snippet%2CcontentDetails&maxResults=50'+
             '&playlistId='+playlistID+
-            '&fields=nextPageToken'+
-            '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails))'+
-            '%2CcontentDetails)'+
+            // '&fields=nextPageToken'+
+            // '%2Citems(snippet(publishedAt%2Ctitle%2Cdescription%2Cthumbnails))'+
+            // '%2CcontentDetails)'+
             '&key='+process.env.MY_KEY,
             { method:'GET' })
         .then(res => res.json())
-        .then(data => playlistVideos = data)
+        .then(data => {playlistVideos = data;util.inspect(data,false,null,true)})
         .catch(err=>console.log("fetchPlaylistError: "+util.inspect(err,false,null,true)))
     
     await fetch(
@@ -62,6 +62,7 @@ const fetchPlaylist = async (playlistID) => {
         channelTitle: playlistMetadata.items[0].snippet.channelTitle,
         items: playlistVideos.items
     }
+    console.log(playlistVideos)
     return newPlaylist
 }
 
